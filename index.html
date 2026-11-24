@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1020">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="音の惑星">
+<meta name="description" content="4つの軌道を組み合わせてリズムを作ろう。無料で遊べるオフライン音楽アプリ。">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+<title>音の惑星｜スマホ版 音楽実験室</title>
+<style>
+:root{color-scheme:dark;--bg:#090f1e;--panel:#131d30;--border:#2b3a54;--text:#edf5ff;--muted:#a2b4ce;--cyan:#62e2e0;--pink:#ff82af;--gold:#ffd27c;--violet:#b4a2ff}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 10% -10%,#1b3b52 0,transparent 44%),radial-gradient(ellipse at 90% 0,#322348 0,transparent 35%),var(--bg);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text)}
+button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid white;outline-offset:3px}
+.shell{max-width:1170px;margin:0 auto;padding:27px 20px 46px}.top{display:flex;align-items:center;justify-content:space-between;gap:10px}.brand{font-size:12px;letter-spacing:.22em;font-weight:800;color:var(--cyan)}.pill{font-size:12px;color:#c9f9ed;border:1px solid #3d776f;border-radius:999px;padding:5px 12px}
+h1{font-size:clamp(34px,5vw,55px);letter-spacing:-.05em;line-height:1.1;margin:14px 0 9px}.lead{color:var(--muted);max-width:700px;margin:0 0 25px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:17px;align-items:start}.panel{border:1px solid var(--border);background:linear-gradient(145deg,#17233a,#10192b);border-radius:22px;padding:20px;box-shadow:0 18px 50px #0003}.panel h2{font-size:16px;margin:0 0 6px}.minor{font-size:12px;color:var(--muted);margin:0}.space{display:flex;justify-content:center;align-items:center;position:relative;width:min(100%,490px);aspect-ratio:1;margin:8px auto 15px;isolation:isolate;border-radius:50%;background:radial-gradient(circle at 50% 50%,#234059 0,#12233b 21%,#0e1b30 45%,#0b1629 72%,transparent 73%)}
+.space:before{content:"";position:absolute;inset:0;border-radius:50%;background-image:radial-gradient(#ffffff75 1px,transparent 1px);background-size:29px 31px;opacity:.3;z-index:-1}.ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border:1px solid #7183a040;border-radius:50%;pointer-events:none}.pulse{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;width:clamp(20px,5.6%,28px);aspect-ratio:1;border-radius:50%;border:2px solid var(--tone);background:#14263c;color:var(--tone);font-size:11px;font-weight:900;box-shadow:0 0 0 3px #0d1928;transition:background .12s,box-shadow .12s,transform .12s}.pulse.on{background:var(--tone);color:#0b1422}.pulse.now{transform:translate(-50%,-50%) scale(1.25);box-shadow:0 0 0 4px #101d30,0 0 22px var(--tone);z-index:2}.core{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:20%;aspect-ratio:1;border-radius:50%;border:1px solid #5684a6;background:radial-gradient(circle at 38% 30%,#367b92,#152c4b 65%,#0d1a30);box-shadow:0 0 38px #40d6d52e;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}.core .icon{font-size:clamp(19px,4vw,29px);line-height:1}.core .step{font-size:10px;color:#d0eaf1;margin-top:3px}.core.playing{box-shadow:0 0 45px #62e2e07a}.hint{text-align:center;color:var(--muted);font-size:12px;margin:0 0 16px}
+.controls{display:flex;flex-wrap:wrap;gap:9px;justify-content:center}.btn{background:#23334e;border:1px solid #4a607c;border-radius:12px;padding:11px 14px;color:var(--text);font-weight:750;font-size:13px}.btn:hover{border-color:var(--cyan)}.btn.primary{background:linear-gradient(135deg,#65e3d7,#85d8ff);border-color:#74ebde;color:#0a2431;min-width:126px}.btn:disabled{opacity:.45;cursor:wait}.side{display:flex;flex-direction:column;gap:15px}.label-row{display:flex;justify-content:space-between;gap:10px;align-items:center}.tempo{font-size:28px;font-weight:850;letter-spacing:-.04em}.tempo small{font-size:12px;color:var(--muted);font-weight:500}.slider{width:100%;accent-color:var(--cyan);cursor:pointer}.track{border:1px solid #34445e;border-radius:13px;padding:11px 12px;background:#0e1a2c;margin-top:10px}.track-head{display:flex;justify-content:space-between;align-items:center;gap:8px}.track-title{display:flex;align-items:center;gap:8px;font-weight:750;font-size:14px}.dot{width:11px;height:11px;border-radius:50%;background:var(--tone);box-shadow:0 0 12px var(--tone)}.mute{border:1px solid #465673;border-radius:8px;background:#26354e;color:#d8e4f4;font-size:11px;padding:5px 9px}.mute.off{color:#ffb7b7;border-color:#975764;background:#442b3c}.track-fields{display:flex;gap:12px;align-items:center;margin-top:11px}.track-fields label{font-size:11px;color:var(--muted)}.track-fields select{border:1px solid #53627b;border-radius:7px;background:#1b2b43;color:var(--text);padding:5px 7px;font-size:12px}.track-fields input{flex:1;min-width:50px;accent-color:var(--tone)}.track-fields .count{font-size:11px;color:var(--muted);min-width:42px;text-align:right}.preset{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}.preset .btn{padding:8px 10px;font-size:12px}.foot{color:#8598b2;font-size:12px;margin-top:20px}.status{min-height:21px;text-align:center;font-size:12px;color:var(--cyan);margin:13px 0 0}.how{border-top:1px solid #30415c;margin-top:14px;padding-top:13px;font-size:12px;color:var(--muted)}.how strong{color:var(--text)}
+@media(max-width:880px){.layout{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr}.side .panel:last-child{grid-column:span 2}}@media(max-width:550px){.shell{padding:19px 11px 32px}.panel{padding:14px;border-radius:17px}.side{display:flex}.side .panel:last-child{grid-column:auto}.pulse{width:6.7%;font-size:9px}.core .step{font-size:8px}.controls{gap:6px}.btn{padding:10px 11px;font-size:12px}.space{margin:7px auto 13px}}
+@media(prefers-reduced-motion:reduce){.pulse{transition:none}}
+
+/* Touch-first improvements */
+@media(max-width:880px){.layout{grid-template-columns:minmax(0,1fr)}}
+.panel{min-width:0}
+@media(max-width:550px){.label-row{flex-wrap:wrap}}
+html { -webkit-text-size-adjust:100%; }
+body { overscroll-behavior-y:contain; }
+button, select, input[type=range] { touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+.shell { padding-bottom:max(38px,env(safe-area-inset-bottom)); }
+.pulse { touch-action:manipulation; }
+.tap-editor { margin:4px 0 18px; background:#0e192c; border:1px solid #34435a; border-radius:15px; padding:12px; }
+.tap-editor h3 { font-size:13px; margin:0 0 6px; }
+.tap-editor .note { color:var(--muted);font-size:12px;margin:0 0 11px; }
+.tap-editor .lane { display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:10px;padding-top:10px;border-top:1px solid #293b56; }
+.lane .lane-title { font-size:12px; min-width:64px; font-weight:750; display:flex;align-items:center;gap:6px; }
+.lane .lane-title:before { content:"";width:9px;height:9px;background:var(--tone);border-radius:50%; }
+.lane .steps { flex:1;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px; }
+.mstep { position:relative;min-height:44px;border:1px solid #58647d;border-radius:9px;background:#1a2940;color:#d0def2;font-size:13px;font-weight:750;padding:0; }
+.mstep.on { background:var(--tone); color:#122238; border-color:var(--tone); }
+.mstep.now:after { content:"";position:absolute;inset:-4px;border:2px solid #fff;border-radius:12px;pointer-events:none; }
+.mstep:focus-visible { outline:2px solid #fff;outline-offset:3px; }
+.master-control { display:flex; gap:12px; align-items:center;margin-top:13px; }
+.master-control label { min-width:58px;font-size:13px;color:var(--muted); }
+.master-control output { min-width:44px;text-align:right;font-size:13px;font-variant-numeric:tabular-nums; }
+.homescreen { color:var(--muted);font-size:13px;line-height:1.7; }
+.homescreen strong {color:var(--text)}
+@media (max-width:550px){
+ .shell {padding:17px 11px max(28px,env(safe-area-inset-bottom));}
+ .lead {font-size:13px;margin-bottom:16px;}
+ h1 {font-size:36px;}
+ .space { width:min(100%,360px); }
+ .pulse {min-width:24px;min-height:24px;}
+ .tap-editor {padding:10px;}
+ .tap-editor .lane { display:block;}
+ .lane .lane-title {margin-bottom:7px;}
+ .lane .steps {grid-template-columns:repeat(6,minmax(0,1fr));}
+ .mstep {min-height:45px;}
+ .controls {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));}
+ .controls #download {grid-column:span 2;}
+ .btn {min-height:45px;}
+ .track-fields select {min-height:40px;}
+ .mute {min-height:39px;}
+}
+
+</style>
+</head>
+<body>
+<main class="shell">
+ <div class="top"><span class="brand">MUSIC LAB / MOBILE</span><span class="pill">iPhone・Android対応</span></div>
+ <h1>音の惑星 <span aria-hidden="true">✦</span></h1>
+ <p class="lead">長さの違う4つの音の軌道が、すれ違いながら新しいリズムを生み出す。点を押して音を置き、あなただけの小宇宙を鳴らそう。</p>
+ <div class="layout">
+  <section class="panel" aria-label="音の軌道と再生">
+   <div class="label-row"><h2>軌道エディター</h2><span class="minor">点をタップして ON / OFF</span></div>
+   <div id="space" class="space" aria-label="4つの音の軌道"><div class="core" id="core"><span class="icon">✧</span><span class="step" id="stepText">READY</span></div></div>
+   <p class="hint">それぞれの軌道は違う周期で繰り返します。重なりが変わる瞬間を楽しもう。</p>
+   <div id="tapEditor" class="tap-editor" aria-label="指で編集するリズムパッド"><h3>タッチで編集する</h3><p class="note">下の大きなマスをタップすると、同じ位置の軌道も切り替わります。</p></div>
+   <div class="controls"><button class="btn primary" id="play" type="button">▶ 再生する</button><button class="btn" id="random" type="button">⚄ 変異させる</button><button class="btn" id="download" type="button">↓ 12秒をWAV保存</button></div>
+   <p class="status" id="status" role="status" aria-live="polite">再生を押すと音が鳴ります</p>
+  </section>
+  <div class="side">
+   <section class="panel"><div class="label-row"><h2>テンポ</h2><div class="tempo"><span id="bpmValue">108</span> <small>BPM</small></div></div><input id="bpm" class="slider" type="range" min="55" max="180" step="1" value="108" aria-label="テンポ"><p class="minor">遅くすると音の隙間が、速くすると重なりが変化します。</p>
+    <div class="master-control"><label for="masterVolume">全体音量</label><input id="masterVolume" class="slider" type="range" min="0" max="100" value="65" step="5" aria-label="全体音量"><output id="masterVolumeValue" for="masterVolume">65%</output></div></section>
+   <section class="panel"><h2>4つの音の軌道</h2><p class="minor">周期と音量を変えて、予想外の重なりを作ろう。</p><div id="tracks"></div></section>
+   <section class="panel"><h2>星図プリセット</h2><div class="preset"><button class="btn" data-preset="nebula" type="button">✦ 星雲</button><button class="btn" data-preset="rain" type="button">☂ 流星雨</button><button class="btn" data-preset="pulse" type="button">♥ 鼓動</button></div><div class="how"><strong>遊び方：</strong>色のついた点は音が鳴る位置。輪ごとに点の数が違うため、同じ組み合わせはなかなか戻りません。プリセットから始めて、点や周期を変えてみてね。<br><br>PCではスペースキーでも再生・停止できます。音が出ない場合は端末の音量やミュート設定を確認してください。</div></section>
+   <section class="panel"><h2>スマホでアプリとして使う</h2><p class="homescreen"><strong>iPhone：</strong>公開URLをSafariで開き、「共有」→「ホーム画面に追加」。<br><strong>Android：</strong>Chromeのメニューから「アプリをインストール」または「ホーム画面に追加」。<br>一度オンラインで開いてからホーム画面に追加すると、オフラインでも使えます。設定は端末内に保存されます。</p></section>
+  </div>
+ </div>
+ <p class="foot">ブラウザ内の音声合成だけで演奏・WAV書き出し。外部通信なし。設定は対応ブラウザに自動保存されます。ヘッドホン推奨。</p>
+</main>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const palette=['#62e2e0','#ff82af','#ffd27c','#b4a2ff'];
+const names=['鼓動','破片','粒子','光'];
+const types=['kick','snare','hat','bell'];
+const radii=[15,25.5,36,46.5];
+const defaults=[
+ {length:5,pattern:[1,0,0,1,0],volume:0.9,mute:false},
+ {length:7,pattern:[0,0,1,0,0,0,1],volume:0.55,mute:false},
+ {length:9,pattern:[1,0,1,0,1,0,1,0,1],volume:0.5,mute:false},
+ {length:11,pattern:[1,0,0,0,0,1,0,0,0,0,1],volume:0.48,mute:false}
+];
+let tracks=structuredCloneSafe(defaults),bpm=108,masterVolume=.65;
+function structuredCloneSafe(obj){return JSON.parse(JSON.stringify(obj))}
+function validState(s){return s&&Number.isInteger(s.bpm)&&s.bpm>=55&&s.bpm<=180&&Array.isArray(s.tracks)&&s.tracks.length===4&&s.tracks.every(t=>Number.isInteger(t.length)&&t.length>=3&&t.length<=12&&Array.isArray(t.pattern)&&t.pattern.length===t.length&&t.pattern.every(x=>x===0||x===1)&&typeof t.volume==='number'&&t.volume>=0&&t.volume<=1&&typeof t.mute==='boolean')}
+try{const saved=JSON.parse(localStorage.getItem('orbit_rhythm_v1'));if(validState(saved)){tracks=saved.tracks;bpm=saved.bpm;if(typeof saved.masterVolume==='number'&&saved.masterVolume>=0&&saved.masterVolume<=1)masterVolume=saved.masterVolume}}catch{}
+function persist(){try{localStorage.setItem('orbit_rhythm_v1',JSON.stringify({tracks,bpm,masterVolume}))}catch{}}
+function status(s){$('status').textContent=s}
+function build(){
+ const space=$('space');space.querySelectorAll('.ring,.pulse').forEach(x=>x.remove());
+ const list=$('tracks');list.replaceChildren();const pad=$('tapEditor');pad.querySelectorAll('.lane').forEach(x=>x.remove());
+ tracks.forEach((t,i)=>{
+  const tone=palette[i],radius=radii[i];
+  const ring=document.createElement('div');ring.className='ring';ring.style.cssText=`width:${radius*2}%;height:${radius*2}%;border-color:${tone}55`;space.append(ring);
+  for(let j=0;j<t.length;j++){
+   const angle=-Math.PI/2+j*2*Math.PI/t.length;
+   const b=document.createElement('button');b.type='button';b.className='pulse'+(t.pattern[j]?' on':'');b.dataset.track=i;b.dataset.index=j;
+   b.style.cssText=`--tone:${tone};left:${50+radius*Math.cos(angle)}%;top:${50+radius*Math.sin(angle)}%`;
+   b.setAttribute('aria-label',`${names[i]} ${j+1}/${t.length} ${t.pattern[j]?'オン':'オフ'}`);b.setAttribute('aria-pressed',String(!!t.pattern[j]));
+   b.addEventListener('click',()=>togglePattern(i,j));space.append(b)
+  }
+  const lane=document.createElement('div');lane.className='lane';lane.style.setProperty('--tone',tone);
+  const laneTitle=document.createElement('div');laneTitle.className='lane-title';laneTitle.textContent=`${names[i]} / ${t.length}拍`;
+  const steps=document.createElement('div');steps.className='steps';
+  for(let j=0;j<t.length;j++){const bb=document.createElement('button');bb.type='button';bb.className='mstep'+(t.pattern[j]?' on':'');bb.dataset.track=i;bb.dataset.index=j;bb.textContent=j+1;bb.setAttribute('aria-label',`${names[i]} ${j+1}拍目 ${t.pattern[j]?'オン':'オフ'}`);bb.setAttribute('aria-pressed',String(!!t.pattern[j]));bb.addEventListener('click',()=>togglePattern(i,j));steps.append(bb)}
+  lane.append(laneTitle,steps);pad.append(lane);
+  const row=document.createElement('div');row.className='track';row.style.setProperty('--tone',tone);
+  const head=document.createElement('div');head.className='track-head';
+  const title=document.createElement('span');title.className='track-title';title.innerHTML=`<span class="dot" aria-hidden="true"></span>${names[i]}`;
+  const mute=document.createElement('button');mute.type='button';mute.className='mute'+(t.mute?' off':'');mute.textContent=t.mute?'ミュート中':'音あり';mute.setAttribute('aria-pressed',String(t.mute));mute.addEventListener('click',()=>{t.mute=!t.mute;mute.textContent=t.mute?'ミュート中':'音あり';mute.classList.toggle('off',t.mute);mute.setAttribute('aria-pressed',String(t.mute));persist()});head.append(title,mute);
+  const fields=document.createElement('div');fields.className='track-fields';
+  const lengthLabel=document.createElement('label');lengthLabel.textContent='周期 ';const sel=document.createElement('select');sel.setAttribute('aria-label',`${names[i]}の周期`);
+  for(let n=3;n<=12;n++){const op=document.createElement('option');op.value=n;op.textContent=`${n}拍`;sel.append(op)}sel.value=t.length;
+  sel.addEventListener('change',()=>{const n=Number(sel.value);const old=t.pattern.slice();t.length=n;t.pattern=Array.from({length:n},(_,j)=>old[j%old.length]);build();persist()});lengthLabel.append(sel);
+  const volLabel=document.createElement('label');volLabel.textContent='音量';const volume=document.createElement('input');volume.type='range';volume.min='0';volume.max='100';volume.step='5';volume.value=String(Math.round(t.volume*100));volume.setAttribute('aria-label',`${names[i]}の音量`);volume.addEventListener('input',()=>{t.volume=Number(volume.value)/100;persist()});
+  const count=document.createElement('span');count.className='count';count.id=`count-${i}`;
+  fields.append(lengthLabel,volLabel,volume,count);row.append(head,fields);list.append(row);updateCount(i)
+ });
+ highlight(currentStep-1)
+}
+function togglePattern(i,j){const t=tracks[i];t.pattern[j]=t.pattern[j]?0:1;document.querySelectorAll(`[data-track="${i}"][data-index="${j}"]`).forEach(b=>{b.classList.toggle('on',!!t.pattern[j]);b.setAttribute('aria-label',`${names[i]} ${j+1}拍目 ${t.pattern[j]?'オン':'オフ'}`);b.setAttribute('aria-pressed',String(!!t.pattern[j]))});updateCount(i);persist()}
+function updateCount(i){const t=tracks[i];$(`count-${i}`).textContent=`${t.pattern.filter(Boolean).length}/${t.length}`}
+function highlight(step){document.querySelectorAll('.pulse.now,.mstep.now').forEach(b=>b.classList.remove('now'));if(step<0){$('stepText').textContent='READY';return}tracks.forEach((t,i)=>{const b=document.querySelector(`.pulse[data-track="${i}"][data-index="${step%t.length}"]`);if(b)b.classList.add('now');const bb=document.querySelector(`.mstep[data-track="${i}"][data-index="${step%t.length}"]`);if(bb)bb.classList.add('now')});$('stepText').textContent=String(step+1).padStart(3,'0')}
+$('bpm').value=bpm;$('bpmValue').textContent=bpm;
+$('masterVolume').value=Math.round(masterVolume*100);$('masterVolumeValue').textContent=`${Math.round(masterVolume*100)}%`;
+$('masterVolume').addEventListener('input',e=>{masterVolume=Number(e.target.value)/100;$('masterVolumeValue').textContent=`${Math.round(masterVolume*100)}%`;if(master)master.gain.setTargetAtTime(masterVolume*.75,audioCtx.currentTime,.02);persist()});
+$('bpm').addEventListener('input',e=>{bpm=Number(e.target.value);$('bpmValue').textContent=bpm;persist()});
+const presets={
+ nebula:defaults,
+ rain:[{length:7,pattern:[1,0,0,0,1,0,0],volume:.8,mute:false},{length:9,pattern:[0,0,1,0,0,1,0,0,0],volume:.5,mute:false},{length:11,pattern:[1,0,1,1,0,1,0,1,1,0,1],volume:.45,mute:false},{length:5,pattern:[0,1,0,0,1],volume:.5,mute:false}],
+ pulse:[{length:4,pattern:[1,0,1,0],volume:.95,mute:false},{length:8,pattern:[0,0,1,0,0,0,1,0],volume:.65,mute:false},{length:6,pattern:[1,1,0,1,0,1],volume:.4,mute:false},{length:12,pattern:[0,0,0,1,0,0,0,0,0,1,0,0],volume:.4,mute:false}]
+};
+document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>{tracks=structuredCloneSafe(presets[b.dataset.preset]);currentStep=0;build();persist();status('星図を切り替えました')}));
+$('random').addEventListener('click',()=>{tracks.forEach(t=>{t.pattern=Array.from({length:t.length},()=>Math.random()<.35?1:0);if(!t.pattern.some(Boolean))t.pattern[Math.floor(Math.random()*t.length)]=1});build();persist();status('音の配置が変異しました')});
+let audioCtx=null,timer=null,nextTime=0,currentStep=0,playing=false,starting=false,uiTimers=[];
+function envelope(g,t,start,end,peak){g.setValueAtTime(Math.max(.0001,peak),t+start);g.exponentialRampToValueAtTime(.0001,t+end)}
+function noiseBuffer(ctx,seconds){const len=Math.max(1,Math.ceil(ctx.sampleRate*seconds)),buf=ctx.createBuffer(1,len,ctx.sampleRate),a=buf.getChannelData(0);for(let i=0;i<len;i++)a[i]=Math.random()*2-1;return buf}
+function playSound(ctx,type,time,volume,destination,step){if(volume<=0)return;const v=volume;
+ if(type==='kick'){
+  const o=ctx.createOscillator(),g=ctx.createGain();o.type='sine';o.frequency.setValueAtTime(165,time);o.frequency.exponentialRampToValueAtTime(45,time+.22);g.gain.setValueAtTime(.0001,time);g.gain.linearRampToValueAtTime(.85*v,time+.008);g.gain.exponentialRampToValueAtTime(.0001,time+.37);o.connect(g).connect(destination);o.start(time);o.stop(time+.38)
+ }else if(type==='snare'||type==='hat'){
+  const dur=type==='hat'?.12:.23,src=ctx.createBufferSource(),filter=ctx.createBiquadFilter(),g=ctx.createGain();src.buffer=noiseBuffer(ctx,dur);filter.type='highpass';filter.frequency.value=type==='hat'?5800:1350;g.gain.setValueAtTime(.0001,time);g.gain.linearRampToValueAtTime((type==='hat'?.27:.43)*v,time+.003);g.gain.exponentialRampToValueAtTime(.0001,time+dur);src.connect(filter).connect(g).connect(destination);src.start(time);src.stop(time+dur)
+ }else{
+  const note=[392,440,523.25,587.33,659.25,783.99][step%6];
+  [1,2.01].forEach((ratio,k)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.type='sine';o.frequency.value=note*ratio;g.gain.setValueAtTime(.0001,time);g.gain.linearRampToValueAtTime((k===0?.27:.08)*v,time+.012);g.gain.exponentialRampToValueAtTime(.0001,time+.72);o.connect(g).connect(destination);o.start(time);o.stop(time+.73)})
+ }
+}
+function scheduleStep(ctx,step,time,dest,sourceTracks){sourceTracks.forEach((t,i)=>{if(!t.mute&&t.pattern[step%t.length])playSound(ctx,types[i],time,t.volume,dest,step)})}
+function tick(){if(!playing||!audioCtx)return;if(nextTime<audioCtx.currentTime-.35)nextTime=audioCtx.currentTime+.05;let loops=0;while(nextTime<audioCtx.currentTime+.14&&loops++<12){const s=currentStep,t=nextTime;scheduleStep(audioCtx,s,t,master,tracks);const delay=Math.max(0,(t-audioCtx.currentTime)*1000);const id=setTimeout(()=>{uiTimers=uiTimers.filter(x=>x!==id);if(playing)highlight(s)},delay);uiTimers.push(id);currentStep++;nextTime+=60/bpm/2}}
+let master=null;
+async function start(){if(starting||playing)return;starting=true;try{if(!window.AudioContext&&!window.webkitAudioContext){status('このブラウザは音声再生に対応していません');return}audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();await audioCtx.resume();if(!master){master=audioCtx.createGain();master.gain.value=masterVolume*.75;master.connect(audioCtx.destination)}playing=true;currentStep=0;nextTime=audioCtx.currentTime+.065;$('play').textContent='■ 停止する';$('core').classList.add('playing');status('演奏中 · 軌道の重なりに注目！');tick();timer=setInterval(tick,25)}catch(e){status('音声を開始できませんでした。ブラウザの設定を確認してください')}finally{starting=false}}
+function stop(){playing=false;clearInterval(timer);timer=null;uiTimers.forEach(clearTimeout);uiTimers=[];currentStep=0;highlight(-1);$('play').textContent='▶ 再生する';$('core').classList.remove('playing');status('停止しました。点を編集して再生できます')}
+$('play').addEventListener('click',()=>{if(playing)stop();else start()});
+document.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.repeat&&!(e.target instanceof HTMLElement&&['INPUT','BUTTON','SELECT','TEXTAREA'].includes(e.target.tagName))){e.preventDefault();playing?stop():start()}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&playing)stop()});
+function wavBlob(buffer){const samples=buffer.getChannelData(0),ab=new ArrayBuffer(44+samples.length*2),view=new DataView(ab);const write=(o,s)=>{for(let i=0;i<s.length;i++)view.setUint8(o+i,s.charCodeAt(i))};write(0,'RIFF');view.setUint32(4,36+samples.length*2,true);write(8,'WAVE');write(12,'fmt ');view.setUint32(16,16,true);view.setUint16(20,1,true);view.setUint16(22,1,true);view.setUint32(24,buffer.sampleRate,true);view.setUint32(28,buffer.sampleRate*2,true);view.setUint16(32,2,true);view.setUint16(34,16,true);write(36,'data');view.setUint32(40,samples.length*2,true);for(let i=0;i<samples.length;i++){const x=Math.max(-1,Math.min(1,samples[i]));view.setInt16(44+i*2,x<0?x*32768:x*32767,true)}return new Blob([ab],{type:'audio/wav'})}
+$('download').addEventListener('click',async()=>{
+ const b=$('download');if(b.disabled)return;b.disabled=true;status('12秒の音を作成しています…');
+ try{
+  const Offline=window.OfflineAudioContext||window.webkitOfflineAudioContext;if(!Offline)throw Error('offline');
+  const seconds=12,rate=22050,off=new Offline(1,Math.floor(seconds*rate),rate),gain=off.createGain();gain.gain.value=masterVolume*.75;gain.connect(off.destination);
+  const frozen=structuredCloneSafe(tracks),frozenBpm=bpm,interval=60/frozenBpm/2;
+  for(let step=0;step*interval<seconds-.8;step++)scheduleStep(off,step,step*interval+.02,gain,frozen);
+  const rendered=await off.startRendering(),blob=wavBlob(rendered),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='oto-no-wakusei-12sec.wav';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000);status('WAVを保存しました（12秒 / モノラル）')
+ }catch(e){status('WAVの書き出しに失敗しました。このブラウザでは未対応の可能性があります')}
+ finally{b.disabled=false}
+});
+build();
+if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>
